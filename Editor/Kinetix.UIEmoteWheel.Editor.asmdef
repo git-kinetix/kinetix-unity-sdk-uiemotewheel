@@ -1,0 +1,21 @@
+{
+    "name": "Kinetix.UIEmoteWheel.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:c269ced9c8986418ea8a874d5317bfe3",
+        "GUID:a4aeca2ea8bef4ec082794510ed8f613",
+        "GUID:6055be8ebefd69e48b49212b09b47b2f",
+        "GUID:75469ad4d38634e559750d17036d5f7c"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
