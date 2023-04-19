@@ -49,14 +49,6 @@ MonoBehaviour:
       m_Interactions: 
       m_SingletonActionBindings: []
       m_Flags: 0
-    - m_Name: Open
-      m_Type: 1
-      m_ExpectedControlType: Button
-      m_Id: 8410d856-293a-451e-b2e7-1a9d9fbabd11
-      m_Processors: 
-      m_Interactions: 
-      m_SingletonActionBindings: []
-      m_Flags: 0
     - m_Name: Cancel
       m_Type: 1
       m_ExpectedControlType: Button
@@ -123,14 +115,6 @@ MonoBehaviour:
       m_Action: Navigation
       m_Flags: 0
     - m_Name: 
-      m_Id: d4a2d305-aff9-4fd8-8e7f-8cdc6bf9b259
-      m_Path: <Gamepad>/dpad/down
-      m_Interactions: 
-      m_Processors: 
-      m_Groups: 
-      m_Action: Open
-      m_Flags: 0
-    - m_Name: 
       m_Id: f09d1aa8-6be6-4906-ac62-c1d2c47bce60
       m_Path: <Gamepad>/leftShoulder
       m_Interactions: 
@@ -189,7 +173,7 @@ MonoBehaviour:
     - m_Name: 
       m_Id: 16b118d2-588e-42dd-ae34-42df378eeb1b
       m_Path: <Gamepad>/rightTrigger
-      m_Interactions: 
+      m_Interactions: Press
       m_Processors: 
       m_Groups: Gamepad
       m_Action: NextTab
@@ -197,7 +181,7 @@ MonoBehaviour:
     - m_Name: 
       m_Id: b7bc78d8-652f-4532-a3c9-0fe620c34fa2
       m_Path: <Gamepad>/leftTrigger
-      m_Interactions: 
+      m_Interactions: Press
       m_Processors: 
       m_Groups: 
       m_Action: PrevTab

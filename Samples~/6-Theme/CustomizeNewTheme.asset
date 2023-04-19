@@ -92,7 +92,7 @@ MonoBehaviour:
     EnableCustomSprite: 0
     sprite: {fileID: 0}
     EnableCustomColor: 1
-    color: {r: 1, g: 0, b: 0.8836632, a: 1}
+    color: {r: 0.21176471, g: 0.6901961, b: 1, a: 1}
   - Tag: 16
     EnableCustomSprite: 1
     sprite: {fileID: 21300000, guid: 267f64450772043939730944eb204631, type: 3}
@@ -173,7 +173,7 @@ MonoBehaviour:
   customColors:
   - Tag: 0
     EnableCustomColor: 1
-    color: {r: 0, g: 0.1882353, b: 0.68235296, a: 1}
+    color: {r: 0.21226418, g: 0.6904896, b: 1, a: 1}
   - Tag: 1
     EnableCustomColor: 1
-    color: {r: 1, g: 0, b: 0.45385456, a: 1}
+    color: {r: 0.21173374, g: 0.20784312, b: 1, a: 1}

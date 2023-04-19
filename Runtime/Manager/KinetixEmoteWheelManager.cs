@@ -39,7 +39,6 @@ namespace Kinetix.UI.EmoteWheel
             KinetixUIEmoteWheelBehavior.OnUpdateTheme += UpdateTheme;
             KinetixUIEmoteWheelBehavior.OnUpdateThemeOverride += UpdateThemeOverride;
 
-            KinetixInputManager.OnHitOpenWheel += OpenWheelShortcut;
             KinetixInputManager.OnHitNextTab += OnNextTab;
             KinetixInputManager.OnHitPrevTab += OnPrevTab;
 
@@ -50,7 +49,6 @@ namespace Kinetix.UI.EmoteWheel
             InitCustomConfig(kinetixCommonUIConfiguration as KinetixUIEmoteWheelConfiguration);
             InitEmoteSelector();
             InitInventory();
-            InitStore();
             tabManager.SetCurrentTab(EKinetixUICategory.EMOTE_SELECTOR);
             
             base.Setup();
@@ -59,13 +57,11 @@ namespace Kinetix.UI.EmoteWheel
         private void OnShowView(EKinetixUICategory _KinetixCategory)
         {
             ShowHeaderMenu();
-            KinetixInputManager.Enable();
         }
         
         private void OnHideView(EKinetixUICategory _KinetixCategory)
         {
             HideHeaderMenu();
-            KinetixInputManager.Disable();
         }
         
         private void OnHideAll()
@@ -103,7 +99,6 @@ namespace Kinetix.UI.EmoteWheel
                 emoteSelector.OnSelectAnimation -= OnSelectAnimation;
             }
 
-            KinetixInputManager.OnHitOpenWheel -= OpenWheelShortcut;
             KinetixInputManager.OnHitNextTab -= OnNextTab;
             KinetixInputManager.OnHitPrevTab -= OnPrevTab;
         }
@@ -190,11 +185,6 @@ namespace Kinetix.UI.EmoteWheel
 
         #endregion
 
-        private void InitStore()
-        {
-
-        }
-
         private bool HasAtLeastOnViewShow()
         {
             return kinetixViews.Exists(view => view.Visible);
@@ -221,16 +211,6 @@ namespace Kinetix.UI.EmoteWheel
         {
             LoadEmoteSelector();
             LoadInventory();
-        }
-
-        private void OpenWheelShortcut()
-        {
-            if (HasAtLeastOnViewShow())
-            {
-                KinetixUIBehaviour.HideAll();
-            }                
-            else
-                KinetixUIBehaviour.Show();
         }
 
         private void OnNextTab()
