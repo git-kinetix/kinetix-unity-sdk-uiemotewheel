@@ -20,17 +20,17 @@ namespace Kinetix.UI.EmoteWheel
             KinetixUI.OnHideView -= OnHideView;
         }
 
-        private void OnShowView(EKinetixUICategory _KinetixUICategory)
+        private void OnShowView(EKinetixUICategory kinetixUICategory)
         {
-            if (kinetixCategory != _KinetixUICategory)
+            if (kinetixCategory != kinetixUICategory)
                 return;
 
             effects.ForEach(effect => effect.Play());
         }
 
-        private void OnHideView(EKinetixUICategory _KinetixUICategory)
+        private void OnHideView(EKinetixUICategory kinetixUICategory)
         {
-            if (kinetixCategory != _KinetixUICategory)
+            if (kinetixCategory != kinetixUICategory)
                 return;
             
             effects.ForEach(effect => effect.Stop());

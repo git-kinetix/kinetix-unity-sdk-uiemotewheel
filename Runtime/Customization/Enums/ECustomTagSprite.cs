@@ -37,7 +37,8 @@ namespace Kinetix.UI.EmoteWheel
         ICON_LB = 26,
         ICON_LT = 27,
         ICON_RB = 28,
-        ICON_RT = 29
+        ICON_RT = 29,
+        SPRITE_NOTIFICATION = 30
 
 
     }

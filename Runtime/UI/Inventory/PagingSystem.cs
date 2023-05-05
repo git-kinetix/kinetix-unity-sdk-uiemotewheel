@@ -35,7 +35,7 @@ namespace Kinetix.UI.EmoteWheel
         }
 
         public void OnDestroy()
-        { 
+        {
             buttonLeft.onClick.RemoveAllListeners();
             buttonRight.onClick.RemoveAllListeners();
         }
