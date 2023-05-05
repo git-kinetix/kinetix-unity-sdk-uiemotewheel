@@ -163,6 +163,11 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 1f29a059537be4fe383d050807aa0374, type: 3}
     EnableCustomColor: 0
     color: {r: 0, g: 0, b: 0, a: 0}
+  - Tag: 30
+    EnableCustomSprite: 1
+    sprite: {fileID: 21300000, guid: 60c42575488d64b8bb9d0950b7547bc3, type: 3}
+    EnableCustomColor: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
   customFonts:
   - Tag: 0
     EnableCustomFont: 1

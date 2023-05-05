@@ -35,6 +35,7 @@ namespace Kinetix.UI.EmoteWheel
                 cancellationTokenSource = null;
             }
 
+            fetchedIcon = false;
             cancellationTokenSource = new TokenCancel();
             KinetixCore.Metadata.LoadIconByAnimationId(_Ids, (sprite) =>
             {

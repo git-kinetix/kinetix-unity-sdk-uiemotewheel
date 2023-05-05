@@ -19,5 +19,8 @@ namespace Kinetix.UI.EmoteWheel
 
         [Tooltip("Dark / Light")]
         public ECustomTheme customTheme;
+
+        [Tooltip("Enabled Categories")] 
+        public EKinetixUICategory[] enabledCategories;
     }
 }
