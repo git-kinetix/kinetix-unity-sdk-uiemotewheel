@@ -7,6 +7,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Kinetix.UI.Common;
+using System.Linq;
 
 namespace Kinetix.UI.EmoteWheel
 {
@@ -15,23 +16,23 @@ namespace Kinetix.UI.EmoteWheel
         // REFERENCES
         [SerializeField] private EmoteSelector  emoteSelector;
         [SerializeField] private Inventory      inventory;
+        [SerializeField] private Create         create;
         [SerializeField] private CanvasGroup    headerMenuCanvasGroup;
         [SerializeField] private TabManager     tabManager;
-
         
         // CACHE
         private         List<KinetixView>       kinetixViews;
-
-
+        
         protected override void Setup()
         {
             inventory.OnAddFavorite         += OnAddFavoriteAnimation;
             inventory.OnRemoveFavorite      += OnRemoveFavoriteAnimation;
+            inventory.OnCheckEmote          += OnCheckEmote;
 
             emoteSelector.OnRefillWheel     += OnRefillWheel;
             emoteSelector.OnSelectAnimation += OnSelectAnimation;
             
-            KinetixUIBehaviour.OnShow    += OnShowView;
+            //KinetixUIBehaviour.OnShow    += OnShowView;
             KinetixUIBehaviour.OnHideAll += OnHideAll;
             KinetixUI.OnShowView         += OnShowView;
             KinetixUI.OnHideView         += OnHideView;
@@ -45,18 +46,29 @@ namespace Kinetix.UI.EmoteWheel
             kinetixViews = new List<KinetixView>();
 
             HideHeaderMenu();
-            
+
+            tabManager.Init(kinetixCommonUIConfiguration as KinetixUIEmoteWheelConfiguration);
             InitCustomConfig(kinetixCommonUIConfiguration as KinetixUIEmoteWheelConfiguration);
-            InitEmoteSelector();
             InitInventory();
+            InitEmoteSelector();
+            InitCreate();
             tabManager.SetCurrentTab(EKinetixUICategory.EMOTE_SELECTOR);
             
             base.Setup();
         }
 
+        protected override void OnConnectedAccount()
+        {
+        }
+
         private void OnShowView(EKinetixUICategory _KinetixCategory)
         {
             ShowHeaderMenu();
+
+            if(_KinetixCategory == EKinetixUICategory.CREATE)
+            {
+                create.CreateQRCode();
+            }
         }
         
         private void OnHideView(EKinetixUICategory _KinetixCategory)
@@ -92,6 +104,7 @@ namespace Kinetix.UI.EmoteWheel
                 inventory.OnRemoveFavorite  -= OnRemoveFavoriteAnimation;
                 inventory.OnRefillFavorites -= OnRefillFavorites;
                 inventory.OnRefillBank      -= OnRefillBank;
+                inventory.OnCheckEmote      -= OnCheckEmote;
             }
 
             if (emoteSelector != null)
@@ -116,7 +129,7 @@ namespace Kinetix.UI.EmoteWheel
             InitCustomConfig(kinetixCommonUIConfiguration as KinetixUIEmoteWheelConfiguration);
         }
 
-        private void InitCustomConfig (KinetixUIEmoteWheelConfiguration kinetixUIEmoteWheelConfiguration)
+        private void InitCustomConfig(KinetixUIEmoteWheelConfiguration kinetixUIEmoteWheelConfiguration)
         {
             if( kinetixUIEmoteWheelConfiguration == null)
             {
@@ -181,6 +194,31 @@ namespace Kinetix.UI.EmoteWheel
         private void LoadEmoteSelector()
         {
             emoteSelector.Load(FavoritesAnimationIdByIndex);
+
+        }
+
+        #endregion
+
+        #region CREATE
+        
+        private void InitCreate()
+        {
+            create.Init();
+            kinetixViews.Add(create.View);
+            tabManager.AddTab(EKinetixUICategory.CREATE);
+        }
+
+        private void OnCheckEmote(string UUID)
+        {
+            SaveSystem.SaveEmoteChecked(UUID);
+            
+            KinetixCore.Metadata.GetUserAnimationMetadatas((userMetadatas) =>
+            {
+                List<AnimationMetadata> metadatas = userMetadatas.ToList();
+
+                //if has new emotes, show notification indication visual on menu tab Bag
+                KinetixUI.OnUpdateNotificationNewEmote?.Invoke( HasNewEmotes(metadatas) );
+            });
         }
 
         #endregion

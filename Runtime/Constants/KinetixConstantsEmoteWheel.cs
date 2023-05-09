@@ -11,5 +11,7 @@ namespace Kinetix.UI.EmoteWheel
         public static readonly int c_CountSlotOnInventoryBank = 18;
         public static readonly int c_CountSlotOnWheel         = 9;
         public static readonly int c_CountFavoritePages       = 4;
+        public static readonly int c_NotificationDuration     = 2;
+
     }
 }

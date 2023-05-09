@@ -7,14 +7,14 @@ namespace Kinetix.UI.EmoteWheel
     public class MainMenuTab : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerClickHandler
     {
         [SerializeField] private GameObject         selectedElement;
-        [SerializeField] private EKinetixUICategory kinetixCategory;
+        [SerializeField] private Image              imgNotification;
+        [SerializeField] public EKinetixUICategory  kinetixCategory;
         [SerializeField] private ScaleEffect        scaleEffect;
 
         [SerializeField] private Vector3 baseScale;
         [SerializeField] private Vector3 selectedScale;
 
-        private Image imgCadreUnselected;
-        
+        private Image imgCadreUnselected;        
         private bool isSelected;
         
         private void Awake()
@@ -24,12 +24,16 @@ namespace Kinetix.UI.EmoteWheel
             
             KinetixUI.OnShowView += OnShowView;
             KinetixUI.OnHideView += OnHideView;
+
+            KinetixUI.OnUpdateNotificationNewEmote += UpdateNotificationNewEmote;
         }
 
         private void OnDestroy()
         {
             KinetixUI.OnShowView -= OnShowView;
             KinetixUI.OnHideView -= OnHideView;
+
+            KinetixUI.OnUpdateNotificationNewEmote -= UpdateNotificationNewEmote;
         }
 
         private void OnShowView(EKinetixUICategory _Category)
@@ -51,6 +55,14 @@ namespace Kinetix.UI.EmoteWheel
                 selectedElement.gameObject.SetActive(false);
                 transform.localScale = baseScale;
                 SwitchAlphaImg( imgCadreUnselected, 1f );
+            }
+        }
+
+        private void UpdateNotificationNewEmote(bool bShow)
+        {
+            if(kinetixCategory == EKinetixUICategory.INVENTORY)
+            {
+                imgNotification.gameObject.SetActive(bShow);
             }
         }
 
@@ -89,6 +101,8 @@ namespace Kinetix.UI.EmoteWheel
                 KinetixAnalytics.SendEvent("Click_Wheel_Button", "", KinetixAnalytics.Page.EmoteWheel, KinetixAnalytics.Event_type.Click);
             else if(kinetixCategory == EKinetixUICategory.INVENTORY)
                 KinetixAnalytics.SendEvent("Click_Bag_Button", "", KinetixAnalytics.Page.Inventory, KinetixAnalytics.Event_type.Click);
+            else if(kinetixCategory == EKinetixUICategory.CREATE)
+                KinetixAnalytics.SendEvent("Click_Create_Button", "", KinetixAnalytics.Page.Create, KinetixAnalytics.Event_type.Click);
         }
     }
 }

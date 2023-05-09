@@ -22,7 +22,6 @@ namespace Kinetix.UI.EmoteWheel
     
         public void Appear()
         {
-            // gameObject.SetActive(true);
             if (alphaCoroutine != null)
                 StopCoroutine(alphaCoroutine);
             alphaCoroutine = StartCoroutine(Play(maxAlpha));
@@ -48,8 +47,6 @@ namespace Kinetix.UI.EmoteWheel
             }
 
             image.color = new Color(image.color.r, image.color.g, image.color.b, _EndAlpha);
-            // if(_EndAlpha == 0f)
-            //     gameObject.SetActive(false);
         }
     }
 }
