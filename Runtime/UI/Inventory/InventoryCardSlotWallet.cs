@@ -20,6 +20,7 @@ namespace Kinetix.UI.EmoteWheel
         [SerializeField] private AnimationIcon   animationIcon;
         [SerializeField] private GameObject      outline;
         [SerializeField] private GameObject      favoriteElement;
+        [SerializeField] private GameObject      goNotification;
         [SerializeField] public string UUID;
 
         public bool hasData;
@@ -40,7 +41,7 @@ namespace Kinetix.UI.EmoteWheel
             if(_Ids.Equals(Ids))
                 return;
             
-            UUID = _Ids.UUID;   
+            UUID = _Ids.UUID;
             Ids = _Ids;
             hasData = true;
             
@@ -50,6 +51,14 @@ namespace Kinetix.UI.EmoteWheel
             KinetixCore.Metadata.GetAnimationMetadataByAnimationIds(_Ids, (animationMetadata) =>
             {
                 label.text = animationMetadata.Name;
+                if(goNotification)
+                {
+                    if( System.DateTime.Compare(animationMetadata.CreatedAt, System.DateTime.Now.AddDays(-KinetixConstantsEmoteWheel.c_NotificationDuration)) > 0 )
+                    {
+                        if(!SaveSystem.DidEmoteChecked(_Ids.UUID))
+                            EnableNotificationIcon();
+                    }
+                }
             });
 
             gameObject.SetActive(true);
@@ -63,6 +72,7 @@ namespace Kinetix.UI.EmoteWheel
                        
             Ids = null;
             hasData = false;
+            goNotification.SetActive(false);
             gameObject.SetActive(false);
         }
 
@@ -79,6 +89,18 @@ namespace Kinetix.UI.EmoteWheel
         protected override void OnEndDrag()
         {
 
+        }
+
+        public void EnableNotificationIcon()
+        {
+            if(goNotification)
+                goNotification.gameObject.SetActive(true);
+        }
+
+        public void DisableNotificationIcon()
+        {            
+            if(goNotification)
+                goNotification.gameObject.SetActive(false);
         }
 
         public void EnableFavorite()
