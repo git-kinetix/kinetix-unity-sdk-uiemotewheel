@@ -8,10 +8,10 @@ namespace Kinetix.UI.EmoteWheel
 {
     public static class KinetixConstantsEmoteWheel
     {
-        public static readonly int c_CountSlotOnInventoryBank = 18;
-        public static readonly int c_CountSlotOnWheel         = 9;
-        public static readonly int c_CountFavoritePages       = 4;
-        public static readonly int c_NotificationDuration     = 2;
+        public static readonly int  c_CountSlotOnInventoryBank = 18;
+        public static readonly int  c_CountSlotOnWheel         = 9;
+        public static int           c_CountFavoritePages       = 1;
+        public static readonly int  c_NotificationDuration     = 2;
 
     }
 }

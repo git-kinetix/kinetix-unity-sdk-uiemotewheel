@@ -17,6 +17,7 @@ namespace Kinetix.UI.EmoteWheel
         [SerializeField] private EmoteSelector  emoteSelector;
         [SerializeField] private Inventory      inventory;
         [SerializeField] private Create         create;
+        [SerializeField] private Context        context;
         [SerializeField] private CanvasGroup    headerMenuCanvasGroup;
         [SerializeField] private TabManager     tabManager;
         
@@ -24,14 +25,7 @@ namespace Kinetix.UI.EmoteWheel
         private         List<KinetixView>       kinetixViews;
         
         protected override void Setup()
-        {
-            inventory.OnAddFavorite         += OnAddFavoriteAnimation;
-            inventory.OnRemoveFavorite      += OnRemoveFavoriteAnimation;
-            inventory.OnCheckEmote          += OnCheckEmote;
-
-            emoteSelector.OnRefillWheel     += OnRefillWheel;
-            emoteSelector.OnSelectAnimation += OnSelectAnimation;
-            
+        { 
             //KinetixUIBehaviour.OnShow    += OnShowView;
             KinetixUIBehaviour.OnHideAll += OnHideAll;
             KinetixUI.OnShowView         += OnShowView;
@@ -46,24 +40,39 @@ namespace Kinetix.UI.EmoteWheel
             kinetixViews = new List<KinetixView>();
 
             HideHeaderMenu();
+            InitCountFavoritePages();
+
+            if((kinetixCommonUIConfiguration as KinetixUIEmoteWheelConfiguration).c_CountFavoritePages != 0)
+                KinetixConstantsEmoteWheel.c_CountFavoritePages = (kinetixCommonUIConfiguration as KinetixUIEmoteWheelConfiguration).c_CountFavoritePages;
 
             tabManager.Init(kinetixCommonUIConfiguration as KinetixUIEmoteWheelConfiguration);
             InitCustomConfig(kinetixCommonUIConfiguration as KinetixUIEmoteWheelConfiguration);
             InitInventory();
             InitEmoteSelector();
+            InitContext();
             InitCreate();
             tabManager.SetCurrentTab(EKinetixUICategory.EMOTE_SELECTOR);
             
             base.Setup();
         }
 
+        private void InitCountFavoritePages()
+        {
+            kinetixCommonUIConfiguration ??= new KinetixUIEmoteWheelConfiguration();
+
+            if((kinetixCommonUIConfiguration as KinetixUIEmoteWheelConfiguration).c_CountFavoritePages != 0)
+                KinetixConstantsEmoteWheel.c_CountFavoritePages = (kinetixCommonUIConfiguration as KinetixUIEmoteWheelConfiguration).c_CountFavoritePages;
+        }
+
         protected override void OnConnectedAccount()
         {
+
         }
 
         private void OnShowView(EKinetixUICategory _KinetixCategory)
         {
             ShowHeaderMenu();
+            tabManager.SetCurrentTab(_KinetixCategory);
 
             if(_KinetixCategory == EKinetixUICategory.CREATE)
             {
@@ -109,11 +118,25 @@ namespace Kinetix.UI.EmoteWheel
 
             if (emoteSelector != null)
             {
+                emoteSelector.OnRefillWheel     -= OnRefillWheel;
                 emoteSelector.OnSelectAnimation -= OnSelectAnimation;
             }
 
+			if (context!=null)
+			{
+				context.OnAddContext	-= OnAddContext;
+            	context.OnRemoveContext -= OnRemoveContext;
+			}
+
             KinetixInputManager.OnHitNextTab -= OnNextTab;
             KinetixInputManager.OnHitPrevTab -= OnPrevTab;
+
+            KinetixUIBehaviour.OnHideAll -= OnHideAll;
+            KinetixUI.OnShowView         -= OnShowView;
+            KinetixUI.OnHideView         -= OnHideView;
+
+            KinetixUIEmoteWheelBehavior.OnUpdateTheme -= UpdateTheme;
+            KinetixUIEmoteWheelBehavior.OnUpdateThemeOverride -= UpdateThemeOverride;
         }
 
         public void UpdateTheme (ECustomTheme customTheme)
@@ -131,12 +154,9 @@ namespace Kinetix.UI.EmoteWheel
 
         private void InitCustomConfig(KinetixUIEmoteWheelConfiguration kinetixUIEmoteWheelConfiguration)
         {
-            if( kinetixUIEmoteWheelConfiguration == null)
-            {
-                kinetixUIEmoteWheelConfiguration = new KinetixUIEmoteWheelConfiguration();
-                kinetixUIEmoteWheelConfiguration.customThemeOverride = Resources.Load<KinetixCustomTheme>("ScriptableObject/CustomizeUILightMode");
-            } 
-            else if( kinetixUIEmoteWheelConfiguration.customThemeOverride == null )
+            kinetixUIEmoteWheelConfiguration ??= new KinetixUIEmoteWheelConfiguration();
+
+            if( kinetixUIEmoteWheelConfiguration.customThemeOverride == null )
             {
                 switch(kinetixUIEmoteWheelConfiguration.customTheme)
                 {
@@ -160,7 +180,8 @@ namespace Kinetix.UI.EmoteWheel
         public static void Instantiate(KinetixUIEmoteWheelConfiguration kinetixUIEmoteWheelConfiguration)
         {
             KinetixEmoteWheelManager kinetixEmoteWheelManager = Instantiate(Resources.Load<GameObject>("Prefabs/KinetixUI_EmoteWheel")).GetComponent<KinetixEmoteWheelManager>();
-            kinetixEmoteWheelManager.Initialize(kinetixUIEmoteWheelConfiguration);           
+            kinetixUIEmoteWheelConfiguration ??= new KinetixUIEmoteWheelConfiguration();
+            kinetixEmoteWheelManager.Initialize(kinetixUIEmoteWheelConfiguration);
         }
 
         #region INVENTORY
@@ -187,6 +208,11 @@ namespace Kinetix.UI.EmoteWheel
         private void InitEmoteSelector()
         {
             emoteSelector.Init();
+            inventory.OnAddFavorite         += OnAddFavoriteAnimation;
+            inventory.OnRemoveFavorite      += OnRemoveFavoriteAnimation;
+            inventory.OnCheckEmote          += OnCheckEmote;
+			emoteSelector.OnRefillWheel     += OnRefillWheel;
+            emoteSelector.OnSelectAnimation += OnSelectAnimation;			
             kinetixViews.Add(emoteSelector.View);
             tabManager.AddTab(EKinetixUICategory.EMOTE_SELECTOR);
         }
@@ -194,7 +220,6 @@ namespace Kinetix.UI.EmoteWheel
         private void LoadEmoteSelector()
         {
             emoteSelector.Load(FavoritesAnimationIdByIndex);
-
         }
 
         #endregion
@@ -219,6 +244,26 @@ namespace Kinetix.UI.EmoteWheel
                 //if has new emotes, show notification indication visual on menu tab Bag
                 KinetixUI.OnUpdateNotificationNewEmote?.Invoke( HasNewEmotes(metadatas) );
             });
+        }
+
+        #endregion
+
+        #region CONTEXT
+        
+        private void InitContext()
+        {
+            context.Init();
+            context.OnAddContext	+= OnAddContext;
+            context.OnRemoveContext += OnRemoveContext;
+            kinetixViews.Add(context.View);
+            tabManager.AddTab(EKinetixUICategory.CONTEXT);
+        }
+        
+        private void LoadContext()
+        {
+			context.RefreshInventoryBankAnimations();
+            context.FillContext(ContextEmotesByEventName);
+            context.FillFavorites(FavoritesAnimationIdByIndex);
         }
 
         #endregion
@@ -249,6 +294,7 @@ namespace Kinetix.UI.EmoteWheel
         {
             LoadEmoteSelector();
             LoadInventory();
+            LoadContext();
         }
 
         private void OnNextTab()

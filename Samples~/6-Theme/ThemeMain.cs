@@ -7,26 +7,31 @@
 using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
+using Kinetix;
+using Kinetix.UI;
+using Kinetix.UI.EmoteWheel;
 
-namespace Kinetix.UI.EmoteWheel
+namespace Kinetix.Sample
 {
     public class ThemeMain : MonoBehaviour
     {
-        [SerializeField] private Animator               localPlayerAnimator;
-        [SerializeField] private KinetixCustomTheme     kinetixCustomTheme;
-        [SerializeField] private ECustomTheme           defaultConfig = ECustomTheme.DARK_MODE;
+        [SerializeField] private string virtualWorldKey;
+        [SerializeField] private Animator           localPlayerAnimator;
+        [SerializeField] private KinetixCustomTheme kinetixCustomTheme;
+        [SerializeField] private ECustomTheme       defaultConfig = ECustomTheme.DARK_MODE;
 
         [SerializeField] private TMP_Dropdown dropdown;
-        private List<string> dropdownTheme;
+        private                  List<string> dropdownTheme;
 
         private void Awake()
         {
             KinetixCore.OnInitialized += OnKinetixInitialized;
             KinetixCore.Initialize(new KinetixCoreConfiguration()
             {
-                PlayAutomaticallyAnimationOnAnimators   = true,
-                ShowLogs                                = true,
-                EnableAnalytics                         = true
+                VirtualWorldKey = virtualWorldKey,
+                PlayAutomaticallyAnimationOnAnimators = true,
+                ShowLogs                              = true,
+                EnableAnalytics                       = true
             });
         }
 
@@ -34,9 +39,9 @@ namespace Kinetix.UI.EmoteWheel
         {
             dropdownTheme = new List<string>();
 
-            dropdownTheme.Add( ECustomTheme.LIGHT_MODE.ToString() );
-            dropdownTheme.Add( ECustomTheme.DARK_MODE.ToString() );
-            dropdownTheme.Add( "CUSTOM THEME" );
+            dropdownTheme.Add(ECustomTheme.LIGHT_MODE.ToString());
+            dropdownTheme.Add(ECustomTheme.DARK_MODE.ToString());
+            dropdownTheme.Add("CUSTOM THEME");
 
             dropdown.AddOptions(dropdownTheme);
 
@@ -45,14 +50,14 @@ namespace Kinetix.UI.EmoteWheel
 
         public void OnThemeDropdownChanged()
         {
-            if(dropdown.value < System.Enum.GetValues(typeof(ECustomTheme)).Length ) 
+            if (dropdown.value < System.Enum.GetValues(typeof(ECustomTheme)).Length)
             {
-                KinetixUIEmoteWheel.UpdateTheme( (ECustomTheme)dropdown.value );
-            }            
-            else if( dropdown.options[dropdown.value].text == "CUSTOM THEME")
+                KinetixUIEmoteWheel.UpdateTheme((ECustomTheme)dropdown.value);
+            }
+            else if (dropdown.options[dropdown.value].text == "CUSTOM THEME")
             {
-                KinetixUIEmoteWheel.UpdateThemeOverride( kinetixCustomTheme );
-            }            
+                KinetixUIEmoteWheel.UpdateThemeOverride(kinetixCustomTheme);
+            }
         }
 
         private void OnDestroy()
@@ -61,15 +66,29 @@ namespace Kinetix.UI.EmoteWheel
         }
 
         private void OnKinetixInitialized()
-        {            
-            KinetixUIEmoteWheel.Initialize( new KinetixUIEmoteWheelConfiguration()
+        {
+            KinetixUIEmoteWheel.Initialize(new KinetixUIEmoteWheelConfiguration()
             {
-                customThemeOverride     = null,
-                customTheme             = defaultConfig,
-                baseLanguage            = SystemLanguage.English
+                customThemeOverride = null,
+                customTheme         = defaultConfig,
+                baseLanguage        = SystemLanguage.English,
+                enabledCategories = new []
+                {
+                    EKinetixUICategory.INVENTORY,
+                    EKinetixUICategory.EMOTE_SELECTOR
+                }
             });
 
             KinetixCore.Animation.RegisterLocalPlayerAnimator(localPlayerAnimator);
+
+            KinetixCore.Account.ConnectAccount("sdk-sample-user-id", OnAccountConnected);
+        }
+
+        private void OnAccountConnected()
+        {
+            KinetixCore.Account.AssociateEmotesToUser(new AnimationIds("d228a057-6409-4560-afd0-19c804b30b84"));
+            KinetixCore.Account.AssociateEmotesToUser(new AnimationIds("bd6749e5-ac29-46e4-aae2-bb1496d04cbb"));
+            KinetixCore.Account.AssociateEmotesToUser(new AnimationIds("7a6d483e-ebdc-4efd-badb-12a2e210e618"));
         }
     }
 }

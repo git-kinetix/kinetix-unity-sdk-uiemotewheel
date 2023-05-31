@@ -22,5 +22,8 @@ namespace Kinetix.UI.EmoteWheel
 
         [Tooltip("Enabled Categories")] 
         public EKinetixUICategory[] enabledCategories;
+
+        [Tooltip("Count Of Favorite Pages")]
+        public int c_CountFavoritePages = 0;
     }
 }

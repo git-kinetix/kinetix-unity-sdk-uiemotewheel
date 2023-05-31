@@ -69,6 +69,7 @@ namespace Kinetix.UI.EmoteWheel
 
         private void OnUgcUrlFetched(string _UgcUrl)
         {
+            
             ugcURL = _UgcUrl;
 
             // Destroy texture and sprite if they exists
@@ -77,7 +78,7 @@ namespace Kinetix.UI.EmoteWheel
                 
             if(qrCodeImage.sprite != null)
                 Sprite.Destroy(qrCodeImage.sprite);
-
+            
             texture = KinetixQRCodeHelper.Instance.GetQRCodeForUrl(ugcURL, dominantColor, highlightColor);
 
             // Display a QRCOde
@@ -95,6 +96,7 @@ namespace Kinetix.UI.EmoteWheel
                 CoroutineUtils.Instance.StopCoroutine(timeOutCoroutine);
 
             timeOutCoroutine = CoroutineUtils.Instance.StartCoroutine( TimeOutUgcUrl( KinetixConstants.c_TimeOutCreateQRCode) );
+            
         }
 
         private IEnumerator TimeOutUgcUrl(float seconds)

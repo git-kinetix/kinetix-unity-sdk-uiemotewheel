@@ -42,8 +42,8 @@ namespace Kinetix.UI.EmoteWheel
                 Show(iconXBOX, true);
                 Show(labelToHide, true);
             }
-            //else if( device.Contains(InputMappingConstants.KEYBOARD) )
-            else if( device.Contains("InputMappingConstants.PLAYSTATION") )
+            // else if( device.Contains(InputMappingConstants.KEYBOARD) )
+            else if( device.Contains(InputMappingConstants.PLAYSTATION) )
             {
                 Show(iconPS, true);
                 Show(labelToHide, true);

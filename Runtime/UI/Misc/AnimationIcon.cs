@@ -37,8 +37,12 @@ namespace Kinetix.UI.EmoteWheel
 
             fetchedIcon = false;
             cancellationTokenSource = new TokenCancel();
+
             KinetixCore.Metadata.LoadIconByAnimationId(_Ids, (sprite) =>
             {
+                if (cancellationTokenSource == null)
+                    return;
+
                 cancellationTokenSource = null;
                 
                 if (sprite != null)
@@ -51,8 +55,10 @@ namespace Kinetix.UI.EmoteWheel
                 }
                 else
                 {
+                    Debug.Log("AnimationIcon Ids " +_Ids.UUID );
                     if (img != null)
                     {
+                        Debug.Log("AnimationIcon Ids 2 " +_Ids.UUID );
                         img.transform.localScale = Vector3.one;
                         SetSprite(emptyIcon);
                     }
@@ -64,7 +70,7 @@ namespace Kinetix.UI.EmoteWheel
         }
 
         public void Activate()
-        {
+        {   
             if (fetchedIcon)
             {
                 if (spinner != null)
@@ -83,10 +89,23 @@ namespace Kinetix.UI.EmoteWheel
 
         public void Deactivate()
         {
+            if (cancellationTokenSource != null)
+            {
+                cancellationTokenSource.Cancel();
+                cancellationTokenSource = null;
+            }
+
+
             if (spinner != null)
+            {
                 spinner.gameObject.SetActive(false);
+            }
+
+
             if (img != null)
+            {
                 img.gameObject.SetActive(false);
+            }
         }
 
         public void Unload(AnimationIds _Ids)
