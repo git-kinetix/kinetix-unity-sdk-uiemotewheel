@@ -107,6 +107,7 @@ namespace Kinetix.UI.EmoteWheel
         {
             HasData = false;
             animationIcon.Deactivate();
+            animationIcon.Unload();
         }
 
         public void ShowOutline() 

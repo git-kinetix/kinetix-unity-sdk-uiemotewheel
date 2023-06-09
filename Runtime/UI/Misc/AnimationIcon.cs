@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
 using Kinetix.Utils;
+using Kinetix.UI.Common;
 
 namespace Kinetix.UI.EmoteWheel
 {
@@ -10,6 +11,7 @@ namespace Kinetix.UI.EmoteWheel
         [SerializeField] private Image      img;
         [SerializeField] private GameObject spinner;
         [SerializeField] private Sprite     emptyIcon;
+        [SerializeField] public AnimationIds ids;
 
         private bool fetchedIcon;
         private TokenCancel cancellationTokenSource;
@@ -37,8 +39,12 @@ namespace Kinetix.UI.EmoteWheel
 
             fetchedIcon = false;
             cancellationTokenSource = new TokenCancel();
+
             KinetixCore.Metadata.LoadIconByAnimationId(_Ids, (sprite) =>
             {
+                if (cancellationTokenSource == null)
+                    return;
+
                 cancellationTokenSource = null;
                 
                 if (sprite != null)
@@ -59,12 +65,19 @@ namespace Kinetix.UI.EmoteWheel
                 }
                 
                 fetchedIcon = true;
+
+                if (_Ids != null && !_Ids.Equals(ids))
+                {
+                    KinetixIconLoadingManager.RegisterLoadedIconForIds(_Ids, this);
+                    ids = _Ids;
+                }
+                
                 Activate();
             }, cancellationTokenSource);
         }
 
         public void Activate()
-        {
+        {   
             if (fetchedIcon)
             {
                 if (spinner != null)
@@ -83,21 +96,35 @@ namespace Kinetix.UI.EmoteWheel
 
         public void Deactivate()
         {
+            if (cancellationTokenSource != null)
+            {
+                cancellationTokenSource.Cancel();
+                cancellationTokenSource = null;
+            }
+
+
             if (spinner != null)
+            {
                 spinner.gameObject.SetActive(false);
+            }
+
+
             if (img != null)
+            {
                 img.gameObject.SetActive(false);
+            }
         }
 
-        public void Unload(AnimationIds _Ids)
+        public void Unload()
         {
-            KinetixCore.Metadata.UnloadIconByAnimationId(_Ids);
-        }        
-        
+            KinetixIconLoadingManager.UnregisterLoadedIdsForIcon(ids, this);
+            ids = null;
+        }
+
         private void SetSprite(Sprite _Sprite)
         {
             if(img == null)
-                return;            
+                return;
         
             img.sprite = _Sprite;                
         }

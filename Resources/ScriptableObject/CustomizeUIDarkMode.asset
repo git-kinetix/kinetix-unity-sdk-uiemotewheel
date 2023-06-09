@@ -168,6 +168,21 @@ MonoBehaviour:
     sprite: {fileID: 21300000, guid: 20094347b7ef241af9942f64bad6dcbf, type: 3}
     EnableCustomColor: 0
     color: {r: 0, g: 0, b: 0, a: 0}
+  - Tag: 31
+    EnableCustomSprite: 1
+    sprite: {fileID: 21300000, guid: 539d11fe5d3614c61b3160bb30b7dd92, type: 3}
+    EnableCustomColor: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+  - Tag: 32
+    EnableCustomSprite: 1
+    sprite: {fileID: 21300000, guid: 236f3122e852e4077868eeed5cba34f4, type: 3}
+    EnableCustomColor: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
+  - Tag: 33
+    EnableCustomSprite: 1
+    sprite: {fileID: 21300000, guid: c118506aed89d492981a85d991eeda69, type: 3}
+    EnableCustomColor: 0
+    color: {r: 0, g: 0, b: 0, a: 0}
   customFonts:
   - Tag: 0
     EnableCustomFont: 1

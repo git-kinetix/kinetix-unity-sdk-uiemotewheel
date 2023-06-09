@@ -31,7 +31,15 @@ namespace Kinetix.UI.EmoteWheel
 
         public void UpdatePageLabel(int _Page, int _TotalPage)
         {
-            labelPage.text = suffix + (_Page + 1) + "/" + _TotalPage;
+            if(_TotalPage>1)
+            {
+                gameObject.SetActive(true);
+                labelPage.text = suffix + (_Page + 1) + "/" + _TotalPage;
+            }
+            else 
+            {
+                gameObject.SetActive(false);
+            }
         }
 
         public void OnDestroy()

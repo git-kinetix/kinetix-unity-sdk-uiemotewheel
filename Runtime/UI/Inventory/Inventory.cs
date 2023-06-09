@@ -24,11 +24,11 @@ namespace Kinetix.UI.EmoteWheel
 
         public void Init()
         {
-            View.OnAddFavorite     += OnAddFavoriteAnimation;
-            View.OnRemoveFavorite  += OnRemoveFavoriteAnimation;
-            View.OnRefillFavorites += RefillFavorites;
-            View.OnRefillBank      += RefillBank;
-            View.OnCheckEmoteAction      += CheckEmote;
+            View.OnAddFavorite      += OnAddFavoriteAnimation;
+            View.OnRemoveFavorite   += OnRemoveFavoriteAnimation;
+            View.OnRefillFavorites  += RefillFavorites;
+            View.OnRefillBank       += RefillBank;
+            View.OnCheckEmoteAction += CheckEmote;
             View.Init();
         }
 
@@ -37,11 +37,11 @@ namespace Kinetix.UI.EmoteWheel
             if (View == null)
                 return;
 
-            View.OnAddFavorite     -= OnAddFavoriteAnimation;
-            View.OnRemoveFavorite  -= OnRemoveFavoriteAnimation;
-            View.OnRefillFavorites -= RefillFavorites;
-            View.OnRefillBank      -= RefillBank;
-            View.OnCheckEmoteAction      -= CheckEmote;
+            View.OnAddFavorite      -= OnAddFavoriteAnimation;
+            View.OnRemoveFavorite   -= OnRemoveFavoriteAnimation;
+            View.OnRefillFavorites  -= RefillFavorites;
+            View.OnRefillBank       -= RefillBank;
+            View.OnCheckEmoteAction -= CheckEmote;
         }
 
         public void FillFavorites(Dictionary<int, AnimationIds> _FavoritesAnimationIdByIndex)

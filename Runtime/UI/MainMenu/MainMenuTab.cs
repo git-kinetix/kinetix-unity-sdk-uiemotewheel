@@ -103,6 +103,8 @@ namespace Kinetix.UI.EmoteWheel
                 KinetixAnalytics.SendEvent("Click_Bag_Button", "", KinetixAnalytics.Page.Inventory, KinetixAnalytics.Event_type.Click);
             else if(kinetixCategory == EKinetixUICategory.CREATE)
                 KinetixAnalytics.SendEvent("Click_Create_Button", "", KinetixAnalytics.Page.Create, KinetixAnalytics.Event_type.Click);
+            else if(kinetixCategory == EKinetixUICategory.CONTEXT)
+                KinetixAnalytics.SendEvent("Click_Context_Button", "", KinetixAnalytics.Page.Context, KinetixAnalytics.Event_type.Click);
         }
     }
 }

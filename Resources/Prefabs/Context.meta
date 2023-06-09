@@ -1,0 +1,12 @@
+fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Plugins/Kinetix/UI/EmoteWheel/Resources/Prefabs/Context.meta
+guid: 486f849f12ff04f96909f4db0d1991ba
+========
+guid: 9521e222503e949deb89dd384f787b98
+>>>>>>>> 0.7.0:Assets/Plugins/Kinetix/UI/EmoteWheel/Runtime/UI/Context.meta
+folderAsset: yes
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

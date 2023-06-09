@@ -19,6 +19,7 @@ namespace Kinetix.UI.EmoteWheel
         public Action<AnimationIds> OnSelectAnimation;
         public Action               OnRefillWheel;
     
+        [SerializeField] List<AnimationIds> listFavorites = new List<AnimationIds>();
         [SerializeField] private List<EmoteSelectorSlot> emoteSelectorSlots;
         [SerializeField] private PagingSystem            emotePagingSystem;
         [SerializeField] private TextMeshProUGUI         animationLabel;
@@ -27,6 +28,7 @@ namespace Kinetix.UI.EmoteWheel
         private int                             currentPageIndex;
         private Dictionary<int, AnimationIds>   favoritesIdByIndex;
         private int                             currentSlotIndex = -1;
+        private int                             c_CountFavoritePagesCurrent;
     
         protected override void Awake()
         {
@@ -91,47 +93,98 @@ namespace Kinetix.UI.EmoteWheel
             
             if (_FavoritesIdByIndex == null)
                 return;
-            
-            foreach (KeyValuePair<int, AnimationIds> favoriteKVP in favoritesIdByIndex)
-            {
-                KinetixCore.Metadata.IsAnimationOwnedByUser(favoriteKVP.Value, owned =>
-                {
-                    if (!owned)
-                        return;
-                    
-                    bool isOnPage = favoriteKVP.Key >= GetRealPageIndexFavorites(0) &&
-                                    favoriteKVP.Key < GetRealPageIndexFavorites(KinetixConstantsEmoteWheel.c_CountSlotOnWheel);
 
-                    if (isOnPage)
+            listFavorites.Clear();
+            c_CountFavoritePagesCurrent = 0;
+            List<AnimationIds> listFavoritesByPage = new List<AnimationIds>();
+            bool bFlag = false;
+            for (int iPage = 0; iPage<KinetixConstantsEmoteWheel.c_CountFavoritePages; iPage++)
+            {
+                bFlag = false;
+                for(int iSlot=0; iSlot<KinetixConstantsEmoteWheel.c_CountSlotOnWheel; iSlot++)
+                {
+                    if( favoritesIdByIndex.ContainsKey( GetRealIndexFavorites(iSlot, iPage)))
                     {
-                        int clampedIndex = (int)Mathf.Repeat(favoriteKVP.Key, KinetixConstantsEmoteWheel.c_CountSlotOnWheel);
-                        EmoteSelectorSlot slot = emoteSelectorSlots[clampedIndex];                    
-                        slot.SetAnimationData(favoriteKVP.Value);
+                        listFavoritesByPage.Add( favoritesIdByIndex[GetRealIndexFavorites(iSlot, iPage)] );
+                        bFlag = true;
+                    }
+                    else
+                    {
+                        listFavoritesByPage.Add( null );
+                    }
+                }
+                if(bFlag)
+                {
+                    listFavorites.AddRange(listFavoritesByPage);
+                    c_CountFavoritePagesCurrent++;
+                }
+                listFavoritesByPage.Clear();
+            }
+
+            if( currentPageIndex > c_CountFavoritePagesCurrent )
+            {
+                currentPageIndex = 0;
+                Load();
+                return;
+            }
+
+            if(listFavorites.Count <= 0)
+                return;            
+
+            for (int iSlot=0; iSlot<KinetixConstantsEmoteWheel.c_CountSlotOnWheel; iSlot++)
+            {
+                if( GetRealPageIndexFavorites(iSlot) >= listFavorites.Count )
+                    continue;
+
+                if(listFavorites[GetRealPageIndexFavorites(iSlot)] == null)
+                    continue;
+
+                KinetixCore.Metadata.IsAnimationOwnedByUser(listFavorites[GetRealPageIndexFavorites(iSlot)], owned =>
+                {
+                    EmoteSelectorSlot slot = emoteSelectorSlots[iSlot];
+                    
+                    if (owned)
+                    {
+                        slot.SetAnimationData( listFavorites[GetRealPageIndexFavorites(iSlot)] );
+                    } 
+                    else
+                    {
+                        slot.SetUnavailable();
                     }
                 });
             }
+
             UnselectAllEmotes();
+            RefreshPages();
         }
+        
+		private void RefreshPages()
+		{
+			emotePagingSystem.UpdatePageLabel(currentPageIndex, c_CountFavoritePagesCurrent);
+		}
 
         private void OnChangedEmotesNextPage()
         {
             currentPageIndex++;
-            currentPageIndex = (int)Mathf.Repeat(currentPageIndex, KinetixConstantsEmoteWheel.c_CountFavoritePages);
-            emotePagingSystem.UpdatePageLabel(currentPageIndex, KinetixConstantsEmoteWheel.c_CountFavoritePages);
+            currentPageIndex = (int)Mathf.Repeat(currentPageIndex, c_CountFavoritePagesCurrent);
             OnRefillWheel?.Invoke();
         }
 
         private void OnChangedEmotesPreviousPage()
         {
             currentPageIndex--;
-            currentPageIndex = (int)Mathf.Repeat(currentPageIndex, KinetixConstantsEmoteWheel.c_CountFavoritePages);
-            emotePagingSystem.UpdatePageLabel(currentPageIndex, KinetixConstantsEmoteWheel.c_CountFavoritePages);
+            currentPageIndex = (int)Mathf.Repeat(currentPageIndex, c_CountFavoritePagesCurrent);
             OnRefillWheel?.Invoke();
         }
         
         private int GetRealPageIndexFavorites(int _Index)
         {
             return _Index + KinetixConstantsEmoteWheel.c_CountSlotOnWheel * currentPageIndex;
+        }
+
+        private int GetRealIndexFavorites(int _Index, int _Page)
+        {
+            return _Index + KinetixConstantsEmoteWheel.c_CountSlotOnWheel * _Page;
         }
 
         private void HoverAnimation(AnimationIds _Ids, int slotIndex)
@@ -145,7 +198,7 @@ namespace Kinetix.UI.EmoteWheel
         
         private void SelectAnimation(AnimationIds ids, int slotIndex)
         {
-            KinetixAnalytics.SendEvent("Play_Animation", ids.UUID, KinetixAnalytics.Page.EmoteWheel, KinetixAnalytics.Event_type.Click, slotIndex+1, currentPageIndex+1);
+            KinetixAnalytics.SendEvent("Play_Animation", ids.UUID, KinetixAnalytics.Page.EmoteWheel, KinetixAnalytics.Event_type.Click, slotIndex+1);
 
             OnSelectAnimation?.Invoke(ids);
         }

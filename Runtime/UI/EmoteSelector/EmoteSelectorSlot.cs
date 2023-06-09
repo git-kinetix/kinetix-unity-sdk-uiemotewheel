@@ -49,18 +49,24 @@ namespace Kinetix.UI.EmoteWheel
             animationIcon.SetAwait();
             
             KinetixCore.Metadata.GetAnimationMetadataByAnimationIds(_Ids, (animationMetadata) =>
-            {
-                animationIcon.Set(_Ids);
-                
+            {                
                 if (KinetixCore.Animation.IsAnimationAvailableOnLocalPlayer(_Ids))
                 {
+                    animationIcon.Set(_Ids);
                     SetAvailable(_Ids);
                 }
                 else
                 {
                     KinetixCore.Animation.GetNotifiedOnAnimationReadyOnLocalPlayer(_Ids, () =>
                     {
-                        SetAvailable(_Ids);
+                        KinetixCore.Metadata.IsAnimationOwnedByUser(_Ids, owned =>
+                        {
+                            if (!owned)
+                                return;
+                            
+                            animationIcon.Set(_Ids);
+                            SetAvailable(_Ids);
+                        });
                     });
                 }
             });
@@ -92,6 +98,7 @@ namespace Kinetix.UI.EmoteWheel
             ids = null;
             isAvailable = false;
             animationIcon.Deactivate();
+            animationIcon.Unload();
         }
 
         private void Select()
