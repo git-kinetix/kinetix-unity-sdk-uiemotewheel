@@ -146,8 +146,8 @@ namespace Kinetix.UI.EmoteWheel
 				//empty list card wallet
 				foreach( InventoryCardSlotWallet icw in listCardsSlotWalletByIndex)
 				{
-					if(icw.hasData)
-						icw.RemoveAnimationData(true);
+					if(icw != null && icw.hasData)
+						icw.RemoveAnimationData();
 				}
 				listCardsSlotWalletByIndex.Clear();
 				cardsIdsByIndex.Clear();
@@ -190,7 +190,7 @@ namespace Kinetix.UI.EmoteWheel
 					if( listCardsSlotWalletByIndex[i] != null )
 					{
 						//only remove animation icon who are not on the favorite
-						listCardsSlotWalletByIndex[i].RemoveAnimationData ( IsAnimationIsInTheFavorite (i));
+						listCardsSlotWalletByIndex[i].RemoveAnimationData();
 						listCardsSlotWalletByIndex[i] = null;
 					}
 				}
@@ -209,7 +209,9 @@ namespace Kinetix.UI.EmoteWheel
 					if( i == currentBankIndexSelected )
 						listCardsSlotWalletByIndex[i].OnPointerEnter(null);
 				}
-			}			
+			}
+
+			KinetixIconLoadingManager.Refresh();
 		}
 
 		private Dictionary<int, AnimationIds> favoritesIdByIndex;

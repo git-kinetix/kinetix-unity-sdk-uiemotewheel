@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Threading;
 using Kinetix.Utils;
+using Kinetix.UI.Common;
 
 namespace Kinetix.UI.EmoteWheel
 {
@@ -10,6 +11,7 @@ namespace Kinetix.UI.EmoteWheel
         [SerializeField] private Image      img;
         [SerializeField] private GameObject spinner;
         [SerializeField] private Sprite     emptyIcon;
+        [SerializeField] public AnimationIds ids;
 
         private bool fetchedIcon;
         private TokenCancel cancellationTokenSource;
@@ -55,16 +57,21 @@ namespace Kinetix.UI.EmoteWheel
                 }
                 else
                 {
-                    Debug.Log("AnimationIcon Ids " +_Ids.UUID );
                     if (img != null)
                     {
-                        Debug.Log("AnimationIcon Ids 2 " +_Ids.UUID );
                         img.transform.localScale = Vector3.one;
                         SetSprite(emptyIcon);
                     }
                 }
                 
                 fetchedIcon = true;
+
+                if (_Ids != null && !_Ids.Equals(ids))
+                {
+                    KinetixIconLoadingManager.RegisterLoadedIconForIds(_Ids, this);
+                    ids = _Ids;
+                }
+                
                 Activate();
             }, cancellationTokenSource);
         }
@@ -108,15 +115,16 @@ namespace Kinetix.UI.EmoteWheel
             }
         }
 
-        public void Unload(AnimationIds _Ids)
+        public void Unload()
         {
-            KinetixCore.Metadata.UnloadIconByAnimationId(_Ids);
-        }        
-        
+            KinetixIconLoadingManager.UnregisterLoadedIdsForIcon(ids, this);
+            ids = null;
+        }
+
         private void SetSprite(Sprite _Sprite)
         {
             if(img == null)
-                return;            
+                return;
         
             img.sprite = _Sprite;                
         }

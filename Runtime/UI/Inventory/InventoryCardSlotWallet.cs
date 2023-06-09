@@ -5,6 +5,7 @@
 // // ----------------------------------------------------------------------------
 
 using System;
+using Kinetix.UI.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -17,7 +18,7 @@ namespace Kinetix.UI.EmoteWheel
     public class InventoryCardSlotWallet : DraggableItem, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField] private TextMeshProUGUI label;
-        [SerializeField] private AnimationIcon   animationIcon;
+        [SerializeField] protected AnimationIcon   animationIcon;
         [SerializeField] private GameObject      outline;
         [SerializeField] private GameObject      favoriteElement;
         [SerializeField] private GameObject      goNotification;
@@ -68,7 +69,7 @@ namespace Kinetix.UI.EmoteWheel
         {
             if(!KeepAnimationIconLoaded)
                 if(Ids != null && !string.IsNullOrEmpty(Ids.UUID))
-                    animationIcon.Unload(Ids);
+                    animationIcon.Unload();
                        
             Ids = null;
             hasData = false;

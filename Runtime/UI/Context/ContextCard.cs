@@ -5,6 +5,7 @@
 // // ----------------------------------------------------------------------------
 
 using System;
+using Kinetix.UI.Common;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -47,6 +48,7 @@ namespace Kinetix.UI.EmoteWheel
 
         private void OnHitRemove()
         {
+            animationIcon.Unload();
             OnRemove?.Invoke(_index);
         }
 
@@ -104,7 +106,7 @@ namespace Kinetix.UI.EmoteWheel
         {
             if(!KeepAnimationIconLoaded)
                 if(Ids != null && !string.IsNullOrEmpty(Ids.UUID))
-                    animationIcon.Unload(Ids);
+                    animationIcon.Unload();
                        
             Ids = null;
             hasData = false;

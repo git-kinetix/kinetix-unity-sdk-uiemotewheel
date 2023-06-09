@@ -198,7 +198,7 @@ namespace Kinetix.UI.EmoteWheel
         
         private void SelectAnimation(AnimationIds ids, int slotIndex)
         {
-            KinetixAnalytics.SendEvent("Play_Animation", ids.UUID, KinetixAnalytics.Page.EmoteWheel, KinetixAnalytics.Event_type.Click, slotIndex+1, currentPageIndex+1);
+            KinetixAnalytics.SendEvent("Play_Animation", ids.UUID, KinetixAnalytics.Page.EmoteWheel, KinetixAnalytics.Event_type.Click, slotIndex+1);
 
             OnSelectAnimation?.Invoke(ids);
         }

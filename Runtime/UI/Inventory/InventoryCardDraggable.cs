@@ -37,6 +37,7 @@ namespace Kinetix.UI.EmoteWheel
         private void EndDrag()
         {
             OnEndDragCard?.Invoke(Ids);
+            animationIcon.Unload();
             Destroy(gameObject);
         }
     }
