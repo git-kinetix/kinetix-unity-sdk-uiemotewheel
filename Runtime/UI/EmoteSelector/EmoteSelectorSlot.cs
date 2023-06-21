@@ -27,7 +27,7 @@ namespace Kinetix.UI.EmoteWheel
         private Button       button;
         private AnimationIds ids;
 
-        private bool isMouseOn;
+        private bool isHover;
 
         private void Awake()
         {
@@ -83,7 +83,7 @@ namespace Kinetix.UI.EmoteWheel
             isAvailable = true;
             animationIcon.Activate();
 
-            if (isMouseOn)
+            if (isHover)
                 Hover();
         }
 
@@ -125,13 +125,16 @@ namespace Kinetix.UI.EmoteWheel
         
         public void OnPointerEnter(PointerEventData eventData)
         {
-            isMouseOn = true;
+            if (isHover)
+                return;
+            
+            isHover = true;
             Hover();
         }
 
         public void OnPointerExit(PointerEventData  eventData)
         {
-            isMouseOn = false;
+            isHover = false;
             Unhover();
         }
     }

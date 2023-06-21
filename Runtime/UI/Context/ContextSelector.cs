@@ -237,11 +237,14 @@ namespace Kinetix.UI.EmoteWheel
 			float maxHeight = contextSelectorScrollRect.content.sizeDelta.y - (contextSelectorScrollRect.transform as RectTransform).sizeDelta.y;
 
 			//if height of the grid is inferior to the scrollRect, so no need to scroll
-			if(maxHeight < 0f) return;
+			if(maxHeight < 0f) maxHeight = 0f;
 
 			positionYContent = Mathf.Clamp(positionYContent, 0f, maxHeight);
-			 
+
 			Vector3 tempPosition = (contextSelectorScrollRect.content.transform  as RectTransform).localPosition;
+
+			Vector3 moveCardToPositionInitial = listCardsSlotContext[indexToGo].GetPositionEmoteCard() + new Vector3(-100f, 100f, 0f);
+			(inventoryCardSelectedToAdd.transform as RectTransform).position = moveCardToPositionInitial;
 
 			//get the final position of the card
 			(contextSelectorScrollRect.content.transform  as RectTransform).localPosition = new Vector3(0f, positionYContent, 0f);
@@ -289,7 +292,7 @@ namespace Kinetix.UI.EmoteWheel
 		{
 			if(_inventoryCardSelectedToAdd == null)
 				return;
-			
+
 			if (bTriggerAvailable)
 			{
 				bTriggerAvailable = false;

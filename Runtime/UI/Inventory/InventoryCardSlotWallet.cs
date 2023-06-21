@@ -24,13 +24,17 @@ namespace Kinetix.UI.EmoteWheel
         [SerializeField] private GameObject      goNotification;
         [SerializeField] public string UUID;
 
-        public bool hasData;
+        public  bool                          hasData;
+        private bool                          isHover;
         public  Action<AnimationIds, Vector2> OnActionStartDrag;
 
         private RectTransform                   rectTransform;
         private CanvasGroup                     canvasGroup;
         
+        
         protected AnimationIds Ids   { get; private set; }
+        
+        
         
         private void Awake()
         {
@@ -116,11 +120,15 @@ namespace Kinetix.UI.EmoteWheel
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            if (isHover)
+                return;
+            isHover = true;
             outline.gameObject.SetActive(true);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            isHover = false;
             outline.gameObject.SetActive(false);
         }
     }

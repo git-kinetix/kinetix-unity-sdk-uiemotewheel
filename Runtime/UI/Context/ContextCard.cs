@@ -37,7 +37,8 @@ namespace Kinetix.UI.EmoteWheel
         private RectTransform                   rectTransform;
         private CanvasGroup                     canvasGroup;
         
-        protected AnimationIds Ids   { get; private set; }
+        protected AnimationIds Ids { get; private set; }
+        private   bool         isHover;
         
         private void Awake()
         {
@@ -115,12 +116,17 @@ namespace Kinetix.UI.EmoteWheel
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            if (isHover)
+                return;
+
+            isHover = true;
             OnEnter?.Invoke(_index);
             outline.gameObject.SetActive(true);
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            isHover = false;
             OnExit?.Invoke();
             outline.gameObject.SetActive(false);
         }

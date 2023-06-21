@@ -36,6 +36,8 @@ namespace Kinetix.UI.EmoteWheel
         private Vector3 startingPoint;
         private Vector3 endingPoint;
 
+        private bool isHover;
+
         private void Awake()
         {
             mainImage.alphaHitTestMinimumThreshold = 0.1f;
@@ -46,6 +48,11 @@ namespace Kinetix.UI.EmoteWheel
 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            
+            if (isHover)
+                return;
+            isHover = true;
+            
             OnEnter?.Invoke(index);
             
             outlineHover.gameObject.SetActive(true);
@@ -55,6 +62,8 @@ namespace Kinetix.UI.EmoteWheel
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            isHover = false;
+            
             OnExit?.Invoke();
 
             outlineHover.gameObject.SetActive(false);
@@ -76,6 +85,9 @@ namespace Kinetix.UI.EmoteWheel
             animationIcon.SetAwait();
             KinetixCore.Metadata.GetAnimationMetadataByAnimationIds(_AnimationIds, (animationMetadata) =>
             {
+                if (animationIcon == null)
+                    return;
+                
                 animationIcon.Set(_AnimationIds);
                 animationIcon.Activate();
             });

@@ -42,21 +42,22 @@ namespace Kinetix.UI.EmoteWheel
 			bank.Init();
 			wheel.Init();
 			
-			bank.OnEndDragCardAction += OnEndDragCardInventory;
-			bank.OnCheckEmoteAction += OnCheckEmote;
+			bank.OnEndDragCardAction 			+= OnEndDragCardInventory;
+			bank.OnCheckEmoteAction 			+= OnCheckEmote;
 
-			wheel.OnAddFavoriteAction += OnAddFavoriteFunc;
-			wheel.OnRemoveFavoriteAction += OnRemoveFavoriteFunc;
-			wheel.OnRefillFavoritesAction += OnRefillFavoritesFunc;
+			wheel.OnAddFavoriteAction 			+= OnAddFavoriteFunc;
+			wheel.OnRemoveFavoriteAction 		+= OnRemoveFavoriteFunc;
+			wheel.OnRefillFavoritesAction 		+= OnRefillFavoritesFunc;
 
-			KinetixInputManager.OnHitNextPage +=  OnChangedFavoriteNextPage;
-			KinetixInputManager.OnHitPrevPage += OnChangedFavoritePreviousPage;
+			KinetixInputManager.OnHitNextPage 	+=  OnChangedFavoriteNextPage;
+			KinetixInputManager.OnHitPrevPage 	+= OnChangedFavoritePreviousPage;
 
-			KinetixInputManager.OnNavigate += OnNavigateBank;
+			KinetixInputManager.OnNavigate 		+= OnNavigateBank;
+			KinetixInputManager.OnCancelNavigate += OnCancelNavigateBank;
 
-			KinetixInputManager.OnSelect += OnSelect;
-			KinetixInputManager.OnCancel += OnCancel;
-			KinetixInputManager.OnDeleteMode += OnDeleteMode;
+			KinetixInputManager.OnSelect 		+= OnSelect;
+			KinetixInputManager.OnCancel 		+= OnCancel;
+			KinetixInputManager.OnDeleteMode 	+= OnDeleteMode;
 		}
 
 		protected override void OnDestroy()
@@ -172,7 +173,7 @@ namespace Kinetix.UI.EmoteWheel
 				{                
 					case State.NORMAL:
 						// create card and put it on top of the inventory wheel favorites
-						inventoryCardSelectedToAdd = bank.CreateAndGetCardOnWheel();
+						inventoryCardSelectedToAdd = bank.CreateAndGetCardToAdd();
 						wheel.MoveCardOnWheel(inventoryCardSelectedToAdd, Vector2.up);			
 						currentState = State.ADDED;
 						break;

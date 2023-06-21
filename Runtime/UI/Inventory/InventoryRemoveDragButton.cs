@@ -18,16 +18,21 @@ namespace Kinetix.UI.EmoteWheel
         public Action OnEnterRemove;
         public Action OnExitRemove;
 
-        [SerializeField] private ScaleEffect   scaleEffect;
+        [SerializeField] private ScaleEffect scaleEffect;
+        private                  bool        isHover;
                 
         public void OnPointerEnter(PointerEventData eventData)
         {
+            if (isHover)
+                return;
+            isHover = true;
             OnEnterRemove?.Invoke();
             scaleEffect.ScaleUp();
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
+            isHover = false;
             OnExitRemove?.Invoke();
             scaleEffect.ScaleDown();
         }

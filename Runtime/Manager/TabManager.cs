@@ -47,29 +47,12 @@ namespace Kinetix.UI.EmoteWheel
             
             List<EKinetixUICategory> categories = _DisplayCategories.ToList();
             categories.RemoveAll(category => !configuration.enabledCategories.Contains(category));
-            
-            if (categories.Contains(EKinetixUICategory.CREATE) && !KinetixCore.UGC.IsUGCAvailable())
-                categories.Remove(EKinetixUICategory.CREATE);
-            
             categories.ForEach(ShowMenuTab);
         }
 
         public void DisplayEnableTabs()
         {
-            listTab.ForEach(tab =>
-            {
-                if (tab == EKinetixUICategory.CREATE)
-                {
-                    if (KinetixCore.UGC.IsUGCAvailable())
-                        ShowMenuTab(tab);
-                    else
-                        HideMenuTab(tab);
-                }
-                else
-                {
-                    ShowMenuTab(tab);
-                }
-            });
+            listTab.ForEach(ShowMenuTab);
         }
 
 		public void AddTab(EKinetixUICategory ECatTab)
