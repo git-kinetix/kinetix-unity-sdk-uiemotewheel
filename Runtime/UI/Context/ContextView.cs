@@ -143,13 +143,14 @@ namespace Kinetix.UI.EmoteWheel
 				switch( currentState )
 				{                
 					case State.NORMAL:
-						// create card and put it on top of the inventory wheel favorites
-						inventoryCardSelectedToAdd = bank.CreateAndGetCardOnWheel();
+						// create card and put it on the 1st context 
+						inventoryCardSelectedToAdd = bank.CreateAndGetCardToAdd();
 						selector.MoveCardOnContext(inventoryCardSelectedToAdd, Vector2.zero, 0);			
 						currentState = State.ADDED;
 						break;
 					case State.ADDED:
 						selector.SetContextCard(inventoryCardSelectedToAdd);
+						selector.bTriggerAvailable = true;
 						Destroy(inventoryCardSelectedToAdd.gameObject);
 						currentState = State.NORMAL;
 						break;
@@ -172,6 +173,7 @@ namespace Kinetix.UI.EmoteWheel
 						break;
 					case State.ADDED:
 						selector.ShowFavoriteOutline(-1);
+						selector.bTriggerAvailable = true;
 						Destroy(inventoryCardSelectedToAdd.gameObject);
 						currentState = State.NORMAL;
 						break;

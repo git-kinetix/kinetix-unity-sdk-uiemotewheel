@@ -2076,7 +2076,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a702cac242505459d8d465acd3f6c63e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  virtualWorldAPIKey: 
+  virtualWorldKey: 
   localPlayerAnimator: {fileID: 166330835}
   kinetixCustomTheme: {fileID: 11400000, guid: ca6ed89416bed4d21af7c709256dc6b7, type: 2}
   defaultConfig: 0

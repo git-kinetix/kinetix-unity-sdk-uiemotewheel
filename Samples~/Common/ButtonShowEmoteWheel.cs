@@ -1,21 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using Kinetix.UI;
 
-public class ButtonShowEmoteWheel : MonoBehaviour
+namespace Kinetix.Sample
 {
-    private void Awake()
+    public class ButtonShowEmoteWheel : MonoBehaviour
     {
-        GetComponent<Button>().onClick.AddListener(OnClick);
-    }
+        private void Awake()
+        {
+            GetComponent<Button>().onClick.AddListener(OnClick);
+        }
 
-    private void OnClick()
-    {
-        if (KinetixUI.IsShown)
-            KinetixUI.HideAll();
-        else
-            KinetixUI.Show();
+        private void OnClick()
+        {
+            if (KinetixUI.IsShown)
+                KinetixUI.HideAll();
+            else
+                KinetixUI.Show();
+        }
     }
 }
+

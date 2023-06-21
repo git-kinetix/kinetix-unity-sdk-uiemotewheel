@@ -393,18 +393,19 @@ namespace Kinetix.UI.EmoteWheel
 				{
 					bTriggerAvailable = false;
 					UnselectAllBankCard();
-					UpdateScrollPosition();
-
+					
 					if (tempCurrentIndexBank >= currentFirstCardVisible && tempCurrentIndexBank< (currentFirstCardVisible+sizePool))           
 						if (listCardsSlotWalletByIndex[tempCurrentIndexBank] != null) 
 							listCardsSlotWalletByIndex[tempCurrentIndexBank].OnPointerEnter(null);
 
 					currentBankIndexSelected = tempCurrentIndexBank;
+
+					UpdateScrollPosition();
 				}
 			}						
 		}
 
-		public InventoryCardDraggable CreateAndGetCardOnWheel()
+		public InventoryCardDraggable CreateAndGetCardToAdd()
 		{
 			OnCheckEmote(cardsIdsByIndex[currentBankIndexSelected].UUID);
 			InventoryCardDraggable inventoryCardSelectedToAdd = GameObject.Instantiate(inventoryDraggableCardPrefab, parentInventoryDraggable)
