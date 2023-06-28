@@ -88,8 +88,8 @@ namespace Kinetix.UI.EmoteWheel
         public void FillSlots(Dictionary<int, AnimationIds> _FavoritesIdByIndex)
         {
             favoritesIdByIndex = _FavoritesIdByIndex;
-            
             emoteSelectorSlots.ForEach(slot  => slot.SetUnavailable());
+            RefreshPages();
             
             if (_FavoritesIdByIndex == null)
                 return;
