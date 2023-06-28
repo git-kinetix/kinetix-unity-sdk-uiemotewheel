@@ -57,6 +57,13 @@ namespace Kinetix.UI.EmoteWheel
                 }
                 else
                 {
+                    // No local character registered
+                    if (KinetixCore.Animation.GetLocalKCC() == null)
+                    {
+                        animationIcon.Deactivate();
+                        return;
+                    }
+                    
                     KinetixCore.Animation.GetNotifiedOnAnimationReadyOnLocalPlayer(_Ids, () =>
                     {
                         KinetixCore.Metadata.IsAnimationOwnedByUser(_Ids, owned =>
