@@ -14,7 +14,7 @@ namespace Kinetix.UI.EmoteWheel
         [SerializeField] public AnimationIds ids;
 
         private bool fetchedIcon;
-        private TokenCancel cancellationTokenSource;
+        private CancellationTokenSource cancellationTokenSource;
 
         private void Awake()
         {
@@ -38,7 +38,7 @@ namespace Kinetix.UI.EmoteWheel
             }
 
             fetchedIcon = false;
-            cancellationTokenSource = new TokenCancel();
+            cancellationTokenSource = new CancellationTokenSource();
 
             KinetixCore.Metadata.LoadIconByAnimationId(_Ids, (sprite) =>
             {

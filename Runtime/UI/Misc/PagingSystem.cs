@@ -38,7 +38,8 @@ namespace Kinetix.UI.EmoteWheel
             }
             else 
             {
-                gameObject.SetActive(false);
+                if (this != null)
+                    gameObject.SetActive(false);
             }
         }
 

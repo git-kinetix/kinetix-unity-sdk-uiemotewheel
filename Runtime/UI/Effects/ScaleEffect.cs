@@ -21,6 +21,9 @@ namespace Kinetix.UI.EmoteWheel
 
         public void ScaleDown()
         {
+            if (this == null)
+                return;
+            
             if (scaleCoroutine != null)
                 StopCoroutine(scaleCoroutine);
             scaleCoroutine = StartCoroutine(Scale(minScale));

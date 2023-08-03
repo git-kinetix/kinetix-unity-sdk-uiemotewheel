@@ -133,14 +133,17 @@ namespace Kinetix.UI.EmoteWheel
 		private void RefreshInventoryBankAnimations ()
 		{
 			KinetixCore.Metadata.GetUserAnimationMetadatas(animationMetadatas =>
-			{
-				currentTotalCard = animationMetadatas.Length;
+            {
+                currentTotalCard = animationMetadatas.Length;
 
 				//sort the array to have the first emotes created on top 
 				animationMetadatas = animationMetadatas.OrderByDescending( x => x.CreatedAt ).ToArray();
 
 				//refresh size of the background of the grid, to make the scrollbar effective
-				RectTransform rt = (parentInventoryWalletGrid.transform as RectTransform);
+                if (parentInventoryWalletGrid == null)
+                    return;
+                
+                RectTransform rt = (parentInventoryWalletGrid.transform as RectTransform);
 				rt.sizeDelta = new Vector2 (rt.sizeDelta.x, ((int)((currentTotalCard-1)/cardByRow)+1) * (CellSizeY+SpacingY) + Padding/2);
 
 				//empty list card wallet

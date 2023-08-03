@@ -45,7 +45,7 @@ namespace Kinetix.Sample
             // EVENTS UI
             KinetixUI.OnPlayedAnimationWithEmoteSelector += OnLocalPlayedAnimation;
 
-            KinetixCore.Animation.RegisterLocalPlayerCustom(avatar, rootTransform, EExportType.AnimationClipLegacy);
+            //KinetixCore.Animation.RegisterLocalPlayerCustom(avatar, rootTransform, EExportType.AnimationClipLegacy);
 
             KinetixCore.Account.ConnectAccount("sdk-sample-user-id", OnAccountConnected);
         }
