@@ -29,6 +29,9 @@ namespace Kinetix.UI.EmoteWheel
 
         public void Disappear()
         {
+            if (this == null)
+                return;
+            
             if (alphaCoroutine != null)
                 StopCoroutine(alphaCoroutine);
             alphaCoroutine = StartCoroutine(Play(minAlpha));
