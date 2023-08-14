@@ -51,9 +51,9 @@ namespace Kinetix.Sample
 
         private void OnAccountConnected()
         {
-            KinetixCore.Account.AssociateEmotesToUser("d228a057-6409-4560-afd0-19c804b30b84");
-            KinetixCore.Account.AssociateEmotesToUser("bd6749e5-ac29-46e4-aae2-bb1496d04cbb");
-            KinetixCore.Account.AssociateEmotesToUser("7a6d483e-ebdc-4efd-badb-12a2e210e618");
+            KinetixCore.Account.AssociateEmotesToUser("f4daf21a-38b8-4f84-a27c-5eb37cd5726e");
+            KinetixCore.Account.AssociateEmotesToUser("62cb8c38-ff49-448d-94c1-d820df90ccdb");
+            KinetixCore.Account.AssociateEmotesToUser("a5d188f1-4d0f-4dfc-bb44-eaea54d0780f");
         }
     }
 }
