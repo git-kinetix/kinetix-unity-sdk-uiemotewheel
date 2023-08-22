@@ -7,7 +7,7 @@ namespace Kinetix.Sample
 {
     public class Events : MonoBehaviour
     {
-        [SerializeField] private string virtualWorldKey;
+        [SerializeField] private string gameAPIKey;
         [SerializeField] private Animator localPlayerAnimator;
 
         private void Awake()
@@ -15,7 +15,7 @@ namespace Kinetix.Sample
             KinetixCore.OnInitialized += OnKinetixInitialized;
             KinetixCore.Initialize(new KinetixCoreConfiguration()
             {
-                VirtualWorldKey = virtualWorldKey,
+                GameAPIKey = gameAPIKey,
                 PlayAutomaticallyAnimationOnAnimators = true,
                 ShowLogs                              = true,
                 EnableAnalytics                       = true
