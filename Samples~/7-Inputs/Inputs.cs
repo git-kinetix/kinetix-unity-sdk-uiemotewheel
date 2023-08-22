@@ -13,7 +13,7 @@ namespace Kinetix.Sample
 {
     public class Inputs : MonoBehaviour
     {
-        [SerializeField] private string virtualWorldKey;
+        [SerializeField] private string gameAPIKey;
         [SerializeField] private Animator          localPlayerAnimator;
         [SerializeField] private KinetixInputMapSO kinetixCustomInputActionMap;
 
@@ -22,7 +22,7 @@ namespace Kinetix.Sample
             KinetixCore.OnInitialized += OnKinetixInitialized;
             KinetixCore.Initialize(new KinetixCoreConfiguration()
             {
-                VirtualWorldKey = virtualWorldKey,
+                GameAPIKey = gameAPIKey,
                 PlayAutomaticallyAnimationOnAnimators = true,
                 ShowLogs                              = false,
                 EnableAnalytics                       = false

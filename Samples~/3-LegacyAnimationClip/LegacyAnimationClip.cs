@@ -7,7 +7,7 @@ namespace Kinetix.Sample
 {
     public class LegacyAnimationClip : MonoBehaviour
     {
-        [SerializeField] private string virtualWorldKey;
+        [SerializeField] private string gameAPIKey;
         [SerializeField] private GameObject character;
         [SerializeField] private Avatar     avatar;
         [SerializeField] private Transform  rootTransform;
@@ -19,7 +19,7 @@ namespace Kinetix.Sample
             KinetixCore.OnInitialized += OnKinetixInitialized;
             KinetixCore.Initialize(new KinetixCoreConfiguration()
             {
-                VirtualWorldKey = virtualWorldKey,
+                GameAPIKey = gameAPIKey,
                 PlayAutomaticallyAnimationOnAnimators = true,
                 ShowLogs                              = true,
                 EnableAnalytics                       = true

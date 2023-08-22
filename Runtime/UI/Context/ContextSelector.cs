@@ -78,7 +78,7 @@ namespace Kinetix.UI.EmoteWheel
 			{
 				listCardsSlotContext.Add (GetContextCard (index, contextEmote.Value));				
 
-				AnimationIds _ids = new AnimationIds(contextEmote.Value.EmoteUuid);
+				AnimationIds _ids = new AnimationIds(contextEmote.Value.EmoteID);
 				KinetixCore.Metadata.IsAnimationOwnedByUser(_ids, owned =>
 				{
 					ContextCard ctxCard = listCardsSlotContext[index];
