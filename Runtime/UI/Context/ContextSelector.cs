@@ -79,7 +79,7 @@ namespace Kinetix.UI.EmoteWheel
 				listCardsSlotContext.Add (GetContextCard (index, contextEmote.Value));				
 
 				AnimationIds _ids = new AnimationIds(contextEmote.Value.EmoteID);
-				KinetixCore.Metadata.IsAnimationOwnedByUser(_ids, owned =>
+				KinetixCore.Metadata.IsAnimationOwnedByUser(_ids.UUID, owned =>
 				{
 					ContextCard ctxCard = listCardsSlotContext[index];
 					if (owned)
@@ -237,19 +237,26 @@ namespace Kinetix.UI.EmoteWheel
 			float maxHeight = contextSelectorScrollRect.content.sizeDelta.y - (contextSelectorScrollRect.transform as RectTransform).sizeDelta.y;
 
 			//if height of the grid is inferior to the scrollRect, so no need to scroll
-			if(maxHeight < 0f) maxHeight = 0f;
+			if (maxHeight < 0f) maxHeight = 0f;
 
 			positionYContent = Mathf.Clamp(positionYContent, 0f, maxHeight);
 
 			Vector3 tempPosition = (contextSelectorScrollRect.content.transform  as RectTransform).localPosition;
 
-			Vector3 moveCardToPositionInitial = listCardsSlotContext[indexToGo].GetPositionEmoteCard() + new Vector3(-100f, 100f, 0f);
-			(inventoryCardSelectedToAdd.transform as RectTransform).position = moveCardToPositionInitial;
+			if (inventoryCardSelectedToAdd != null)
+			{
+				Vector3 moveCardToPositionInitial = listCardsSlotContext[indexToGo].GetPositionEmoteCard() + new Vector3(-100f, 100f, 0f);
+				(inventoryCardSelectedToAdd.transform as RectTransform).position = moveCardToPositionInitial;
+			}
 
 			//get the final position of the card
 			(contextSelectorScrollRect.content.transform  as RectTransform).localPosition = new Vector3(0f, positionYContent, 0f);
-			moveCardToPosition = CoroutineUtils.Instance.StartCoroutine(TweenCardToPosition( listCardsSlotContext[indexToGo].GetPositionEmoteCard() + new Vector3(-100f, 100f, 0f)));
-			(contextSelectorScrollRect.content.transform  as RectTransform).localPosition = tempPosition;
+			
+			Vector3 desiredCardPosition = listCardsSlotContext[indexToGo].GetPositionEmoteCard() + new Vector3(-100f, 100f, 0f);
+
+			moveCardToPosition = CoroutineUtils.Instance.StartCoroutine(TweenCardToPosition(desiredCardPosition));
+			
+			(contextSelectorScrollRect.content.transform as RectTransform).localPosition = tempPosition;
 
 			scrollToPosition = CoroutineUtils.Instance.StartCoroutine(TweenToScrollPosition(positionYContent));
 		}
@@ -279,6 +286,7 @@ namespace Kinetix.UI.EmoteWheel
 				time += Time.deltaTime;
 				yield return null;
 			}
+			
 			(inventoryCardSelectedToAdd.transform as RectTransform).position = new Vector3(_EndCardPosition.x, _EndCardPosition.y, 0f);
 		}
 
@@ -293,12 +301,15 @@ namespace Kinetix.UI.EmoteWheel
 			if(_inventoryCardSelectedToAdd == null)
 				return;
 
-			if (bTriggerAvailable)
+			if (bTriggerAvailable || _direction == Vector2.zero)
 			{
 				bTriggerAvailable = false;
+
 				if(newContextSlotIndex == -1) newContextSlotIndex = indexSlotWhereToAdd;
+
 				indexSlotWhereToAdd = KinetixUtils.GetIndexFromAList(_direction, newContextSlotIndex, listCardsSlotContext.Count);
 				inventoryCardSelectedToAdd = _inventoryCardSelectedToAdd;
+
 				UpdateScrollPosition(indexSlotWhereToAdd);
 				ShowFavoriteOutline(indexSlotWhereToAdd);
 			}

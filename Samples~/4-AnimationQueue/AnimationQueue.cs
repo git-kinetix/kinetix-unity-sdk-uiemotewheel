@@ -8,7 +8,7 @@ namespace Kinetix.Sample
 {
     public class AnimationQueue : MonoBehaviour
     {
-        [SerializeField] private string gameAPIKey;
+        [SerializeField] private string   gameAPIKey;
         [SerializeField] private Animator localPlayerAnimator;
 
         private void Awake()
@@ -16,7 +16,7 @@ namespace Kinetix.Sample
             KinetixCore.OnInitialized += OnKinetixInitialized;
             KinetixCore.Initialize(new KinetixCoreConfiguration()
             {
-                GameAPIKey = gameAPIKey,
+                GameAPIKey                            = gameAPIKey,
                 PlayAutomaticallyAnimationOnAnimators = true,
                 ShowLogs                              = true
             });
@@ -47,7 +47,7 @@ namespace Kinetix.Sample
 
             KinetixCore.Account.ConnectAccount("sdk-sample-user-id", OnAccountConnected);
         }
-
+        
         private void OnAccountConnected()
         {
             KinetixCore.Account.AssociateEmotesToUser("f4daf21a-38b8-4f84-a27c-5eb37cd5726e");
@@ -56,12 +56,11 @@ namespace Kinetix.Sample
 
             KinetixCore.Metadata.GetUserAnimationMetadatas(animations =>
             {
-                AnimationIds[] animationIDs = animations.Select(metadata => metadata.Ids).Take(2).ToArray();
-                KinetixCore.Animation.LoadLocalPlayerAnimations(animationIDs, "AnimationQueueSampleImplementation", () => { KinetixCore.Animation.PlayAnimationQueueOnLocalPlayer(animationIDs, true); });
+                string[] emoteIds = animations.Select(metadata => metadata.Ids.UUID).Take(2).ToArray();
+                KinetixCore.Animation.LoadLocalPlayerAnimations(emoteIds, "AnimationQueueSampleImplementation", () => { KinetixCore.Animation.PlayAnimationQueueOnLocalPlayer(emoteIds, true); });
             });
         }
-
-
+        
         private void OnPlayedAnimationQueueLocal(AnimationIds[] _AnimationIdsArray)
         {
             string animationStr = "";

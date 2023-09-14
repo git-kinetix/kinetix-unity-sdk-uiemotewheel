@@ -95,7 +95,7 @@ namespace Kinetix.UI.EmoteWheel
 				bool isOnPage = favoriteKVP.Key >= GetRealPageIndexFavorites(0) &&
 								favoriteKVP.Key < GetRealPageIndexFavorites(KinetixConstantsEmoteWheel.c_CountSlotOnWheel);
 				
-				KinetixCore.Metadata.IsAnimationOwnedByUser(favoriteKVP.Value, owned =>
+				KinetixCore.Metadata.IsAnimationOwnedByUser(favoriteKVP.Value.UUID, owned =>
 				{
 					if (owned)
 					{

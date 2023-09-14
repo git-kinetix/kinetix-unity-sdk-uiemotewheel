@@ -13,7 +13,7 @@ namespace Kinetix.Sample
 {
     public class Inputs : MonoBehaviour
     {
-        [SerializeField] private string gameAPIKey;
+        [SerializeField] private string            gameAPIKey;
         [SerializeField] private Animator          localPlayerAnimator;
         [SerializeField] private KinetixInputMapSO kinetixCustomInputActionMap;
 
@@ -22,7 +22,7 @@ namespace Kinetix.Sample
             KinetixCore.OnInitialized += OnKinetixInitialized;
             KinetixCore.Initialize(new KinetixCoreConfiguration()
             {
-                GameAPIKey = gameAPIKey,
+                GameAPIKey                            = gameAPIKey,
                 PlayAutomaticallyAnimationOnAnimators = true,
                 ShowLogs                              = false,
                 EnableAnalytics                       = false
@@ -48,10 +48,10 @@ namespace Kinetix.Sample
             });
 
             KinetixCore.Animation.RegisterLocalPlayerAnimator(localPlayerAnimator);
-
+            
             KinetixCore.Account.ConnectAccount("sdk-sample-user-id", OnAccountConnected);
         }
-
+        
         private void OnAccountConnected()
         {
             KinetixCore.Account.AssociateEmotesToUser("d228a057-6409-4560-afd0-19c804b30b84");

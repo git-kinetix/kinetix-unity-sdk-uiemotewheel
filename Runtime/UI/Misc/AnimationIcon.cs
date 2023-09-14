@@ -40,7 +40,7 @@ namespace Kinetix.UI.EmoteWheel
             fetchedIcon = false;
             cancellationTokenSource = new CancellationTokenSource();
 
-            KinetixCore.Metadata.LoadIconByAnimationId(_Ids, (sprite) =>
+            KinetixCore.Metadata.LoadIconByAnimationId(_Ids.UUID, (sprite) =>
             {
                 if (cancellationTokenSource == null)
                     return;
