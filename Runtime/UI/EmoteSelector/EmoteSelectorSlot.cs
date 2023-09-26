@@ -53,18 +53,18 @@ namespace Kinetix.UI.EmoteWheel
             
             
             
-            KinetixCore.Metadata.GetAnimationMetadataByAnimationIds(_Ids, (animationMetadata) =>
+            KinetixCore.Metadata.GetAnimationMetadataByAnimationIds(_Ids.UUID, (animationMetadata) =>
             {                
-                if (KinetixCore.Animation.IsAnimationAvailableOnLocalPlayer(_Ids))
+                if (KinetixCore.Animation.IsAnimationAvailableOnLocalPlayer(_Ids.UUID))
                 {
                     animationIcon.Set(_Ids);
                     SetAvailable(_Ids);
                 }
                 else
                 {
-                    KinetixCore.Animation.GetNotifiedOnAnimationReadyOnLocalPlayer(_Ids, () =>
+                    KinetixCore.Animation.GetNotifiedOnAnimationReadyOnLocalPlayer(_Ids.UUID, () =>
                     {
-                        KinetixCore.Metadata.IsAnimationOwnedByUser(_Ids, owned =>
+                        KinetixCore.Metadata.IsAnimationOwnedByUser(_Ids.UUID, owned =>
                         {
                             if (!owned)
                                 return;

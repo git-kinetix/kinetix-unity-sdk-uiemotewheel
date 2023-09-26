@@ -223,7 +223,7 @@ namespace Kinetix.UI.EmoteWheel
 			favoritesIdByIndex = _FavoritesAnimationIdByIndex;
 			foreach (KeyValuePair<int, AnimationIds> favoriteKVP in _FavoritesAnimationIdByIndex)
 			{
-				KinetixCore.Metadata.IsAnimationOwnedByUser(favoriteKVP.Value, owned =>
+				KinetixCore.Metadata.IsAnimationOwnedByUser(favoriteKVP.Value.UUID, owned =>
 				{
 					if (!owned)
 						return;

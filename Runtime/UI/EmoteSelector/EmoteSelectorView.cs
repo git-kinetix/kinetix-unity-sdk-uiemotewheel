@@ -139,7 +139,7 @@ namespace Kinetix.UI.EmoteWheel
                 if(listFavorites[GetRealPageIndexFavorites(iSlot)] == null)
                     continue;
 
-                KinetixCore.Metadata.IsAnimationOwnedByUser(listFavorites[GetRealPageIndexFavorites(iSlot)], owned =>
+                KinetixCore.Metadata.IsAnimationOwnedByUser(listFavorites[GetRealPageIndexFavorites(iSlot)].UUID, owned =>
                 {
                     EmoteSelectorSlot slot = emoteSelectorSlots[iSlot];
                     
@@ -190,7 +190,7 @@ namespace Kinetix.UI.EmoteWheel
         private void HoverAnimation(AnimationIds _Ids, int slotIndex)
         {
             UnselectAllEmotes(slotIndex);
-            KinetixCore.Metadata.GetAnimationMetadataByAnimationIds(_Ids, (metadata =>
+            KinetixCore.Metadata.GetAnimationMetadataByAnimationIds(_Ids.UUID, (metadata =>
             {
                 animationLabel.text = metadata.Name;
             }));

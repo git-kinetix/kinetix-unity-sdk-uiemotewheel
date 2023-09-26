@@ -83,7 +83,7 @@ namespace Kinetix.UI.EmoteWheel
             Ids = _AnimationIds;
 
             animationIcon.SetAwait();
-            KinetixCore.Metadata.GetAnimationMetadataByAnimationIds(_AnimationIds, (animationMetadata) =>
+            KinetixCore.Metadata.GetAnimationMetadataByAnimationIds(_AnimationIds.UUID, (animationMetadata) =>
             {
                 if (animationIcon == null)
                     return;

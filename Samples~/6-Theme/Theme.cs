@@ -15,7 +15,7 @@ namespace Kinetix.Sample
 {
     public class Theme : MonoBehaviour
     {
-        [SerializeField] private string gameAPIKey;
+        [SerializeField] private string             gameAPIKey;
         [SerializeField] private Animator           localPlayerAnimator;
         [SerializeField] private KinetixCustomTheme kinetixCustomTheme;
         [SerializeField] private ECustomTheme       defaultConfig = ECustomTheme.DARK_MODE;
@@ -28,7 +28,7 @@ namespace Kinetix.Sample
             KinetixCore.OnInitialized += OnKinetixInitialized;
             KinetixCore.Initialize(new KinetixCoreConfiguration()
             {
-                GameAPIKey = gameAPIKey,
+                GameAPIKey                            = gameAPIKey,
                 PlayAutomaticallyAnimationOnAnimators = true,
                 ShowLogs                              = true,
                 EnableAnalytics                       = true
@@ -83,7 +83,7 @@ namespace Kinetix.Sample
 
             KinetixCore.Account.ConnectAccount("sdk-sample-user-id", OnAccountConnected);
         }
-
+        
         private void OnAccountConnected()
         {
             KinetixCore.Account.AssociateEmotesToUser("f4daf21a-38b8-4f84-a27c-5eb37cd5726e");

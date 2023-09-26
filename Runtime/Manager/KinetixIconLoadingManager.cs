@@ -42,7 +42,7 @@ namespace Kinetix.UI.EmoteWheel
             {
                 if (locksByIds[iconsByAnimIds.Key].Exists(icon => icon.ids.Equals(iconsByAnimIds.Key)) == false)
                 {
-                    KinetixCore.Metadata.UnloadIconByAnimationId(iconsByAnimIds.Key);
+                    KinetixCore.Metadata.UnloadIconByAnimationId(iconsByAnimIds.Key.UUID);
                     locksByIds[iconsByAnimIds.Key].Clear();
                 }
             }

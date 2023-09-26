@@ -79,9 +79,13 @@ namespace Kinetix.UI.EmoteWheel
 		private void ShowMenuTab(EKinetixUICategory enumCatTab)
 		{
 			foreach (MainMenuTab mainMenuTab in listMenuTab)
-			{
+            {
+                if (mainMenuTab == null)
+                    continue;
                 if (mainMenuTab.kinetixCategory == enumCatTab)
                 {
+                    if (mainMenuTab.gameObject == null)
+                        continue;
                     mainMenuTab.gameObject.SetActive(true);
                 }
 			}
