@@ -54,8 +54,12 @@ namespace Kinetix.UI.EmoteWheel
             if (btnURL != null)
                 btnURL.onClick.AddListener(OnClickURL);
 
-            KinetixCore.UGC.OnUGCTokenExpired         -= OnTokenExpired;
-            KinetixCore.Account.OnDisconnectedAccount -= DisposeFetchUgcUrl;
+            if (KinetixCore.UGC != null)
+                KinetixCore.UGC.OnUGCTokenExpired -= OnTokenExpired;
+            
+            if (KinetixCore.Account != null)
+                KinetixCore.Account.OnDisconnectedAccount -= DisposeFetchUgcUrl;
+
             base.OnDestroy();
         }
 
